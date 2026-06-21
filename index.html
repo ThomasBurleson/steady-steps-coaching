@@ -1,0 +1,34 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Redesign landing page</title>
+      <meta name="description" content="Enhances landing pages by suggesting engaging layouts, themes, and visuals to create inviting, user-friendly web experiences that boost engagement." />
+      <meta name="robots" content="noindex, nofollow" />
+      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+      
+    </head>
+
+    <body>
+
+      <!-- Hidden static form so Netlify's build-time bot detects the form + fields.
+           The live form is rendered by React and submits via fetch (see Contact.hook.ts). -->
+      <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="firstName" />
+        <input type="text" name="lastName" />
+        <input type="email" name="email" />
+        <input type="tel" name="phone" />
+        <textarea name="primaryAreas"></textarea>
+        <textarea name="biggestHurdle"></textarea>
+        <input name="bot-field" />
+      </form>
+
+      <div id="root"></div>
+      <script type="module" src="/src/main.tsx"></script>
+      
+    </body>
+  </html>
+  
