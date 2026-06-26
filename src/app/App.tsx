@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { HelmetProvider, Helmet } from "react-helmet-async";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router";
 import likerPortrait from "../imports/liker-portrait.jpeg";
 import coachingImage from "../imports/image-1.png";
 import { motion } from "motion/react";
 import { ArrowRight, Menu, X, Quote, Leaf, Compass, Star, ChevronDown } from "lucide-react";
 import Contact from "./components/Contact";
+import { InsightsSection } from "./blog/List";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1623967680551-3e4694e2c9ad?w=1800&h=900&fit=crop&auto=format";
@@ -53,6 +55,20 @@ const testimonials = [
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // When arriving on the home page with a hash (e.g. navigating from a blog
+  // page to "/#contact"), scroll to the target section once it has rendered.
+  useEffect(() => {
+    const id = window.location.hash.replace("#", "");
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    const timer = setTimeout(
+      () => target.scrollIntoView({ behavior: "smooth", block: "start" }),
+      100,
+    );
+    return () => clearTimeout(timer);
+  }, []);
+
   const scrollTo = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -60,7 +76,7 @@ export default function App() {
   };
 
   return (
-    <HelmetProvider>
+    <>
       <Helmet>
         <title>Steady Steps Coaching — Chelsea</title>
         <meta
@@ -134,6 +150,9 @@ export default function App() {
                 {id.charAt(0).toUpperCase() + id.slice(1)}
               </a>
             ))}
+            <Link to="/blog" className="hover:text-foreground transition-colors">
+              Blog
+            </Link>
           </div>
 
           <a
@@ -174,6 +193,13 @@ export default function App() {
                 {item}
               </a>
             ))}
+            <Link
+              to="/blog"
+              onClick={() => setMenuOpen(false)}
+              className="border-b border-border pb-4 text-foreground"
+            >
+              Blog
+            </Link>
             <a
               href="#contact"
               onClick={scrollTo("contact")}
@@ -788,6 +814,20 @@ export default function App() {
           </div>
         </section>
 
+        {/* ── Insights / Blog ── */}
+        <section id="insights" aria-labelledby="insights-heading" className="bg-background">
+          <InsightsSection />
+          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 -mt-4 flex justify-end pb-8">
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-2 text-primary"
+              style={{ fontWeight: 700, fontSize: "0.95rem" }}
+            >
+              View all articles <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+
         {/* ── CTA / Contact ── */}
         <Contact />
 
@@ -826,6 +866,6 @@ export default function App() {
           </div>
         </footer>
       </div>
-    </HelmetProvider>
+    </>
   );
 }
