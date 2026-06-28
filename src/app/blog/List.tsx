@@ -99,7 +99,7 @@ export default function BlogList() {
       style={{ fontFamily: "'Lato', sans-serif" }}
     >
       <Helmet>
-        <title>Insights — Steady Steps Coaching</title>
+        <title>Insights — Steady-Steps Life Coaching</title>
         <meta
           name="description"
           content="Insights and reflections on personal growth, habits, boundaries, and mental health from Steady Steps Coaching."

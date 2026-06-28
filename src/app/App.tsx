@@ -78,7 +78,7 @@ export default function App() {
   return (
     <>
       <Helmet>
-        <title>Steady Steps Coaching — Chelsea</title>
+        <title>Steady-Steps Life Coaching</title>
         <meta
           name="description"
           content="Cultivating mental health growth through thoughtful, personalized life coaching. Book a free 15-minute Clarity Session with Chelsea today."

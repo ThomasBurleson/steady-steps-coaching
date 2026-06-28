@@ -182,7 +182,7 @@ export default function BlogArticle() {
       style={{ fontFamily: "'Lato', sans-serif" }}
     >
       <Helmet>
-        <title>{post.title} — Steady Steps Coaching</title>
+        <title>{post.title} — Steady-Steps Life Coaching</title>
         <meta name="description" content={post.excerpt} />
       </Helmet>
 
