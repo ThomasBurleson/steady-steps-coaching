@@ -26,6 +26,16 @@
         <input name="bot-field" />
       </form>
 
+      <!-- Hidden form for the background lead POST fired when a Calendly booking
+           completes (see CalendlyProvider.tsx). The webhook → SMS is the primary
+           notification; this just records the booking under Netlify → Forms. -->
+      <form name="booking" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="event-uri" />
+        <input type="text" name="invitee-uri" />
+        <input type="text" name="scheduled-at" />
+        <input name="bot-field" />
+      </form>
+
       <div id="root"></div>
       <script type="module" src="/src/main.tsx"></script>
       

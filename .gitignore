@@ -10,9 +10,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment overrides
+# Environment overrides (keep secrets out of git; .env.example is committed)
+.env
 .env.local
 .env.*.local
+!.env.example
 
 # OS artifacts
 .DS_Store

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { useContactForm } from "./Contact.hook";
+import { useCalendly } from "../calendly/CalendlyProvider";
 import leafImg from "../../imports/leaf.png";
 
 const inputClass =
@@ -54,6 +55,10 @@ export default function Contact() {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
+  // Whether the success view follows a completed Calendly booking (vs. the
+  // visitor closing the scheduler without booking — their intake was still sent).
+  const [booked, setBooked] = useState(false);
+  const { openCalendly } = useCalendly();
 
   const [firstName, lastName, email, phone, primaryAreas, biggestHurdle] = watch([
     "firstName",
@@ -68,8 +73,22 @@ export default function Contact() {
     e.preventDefault();
     setSubmitFailed(false);
     const result = await submitForm();
-    if (result === "success") setShowSuccess(true);
-    else if (result === "error") setSubmitFailed(true);
+    if (result === "error") {
+      setSubmitFailed(true);
+      return;
+    }
+    if (result === "success") {
+      // The intake is captured and POSTed. Open the scheduler prefilled with
+      // their details; show the success view once the popup closes — "booked"
+      // copy if they scheduled, "we'll be in touch" if they closed without.
+      openCalendly({
+        prefill: { name: `${firstName} ${lastName}`.trim(), email },
+        onClose: (didBook) => {
+          setBooked(didBook);
+          setShowSuccess(true);
+        },
+      });
+    }
   };
 
   return (
@@ -167,12 +186,19 @@ export default function Contact() {
                     color: "var(--primary)",
                   }}
                 >
-                  Your request has been submitted!
+                  {booked ? "Your session is booked!" : "Your request has been submitted!"}
                 </h2>
-                <p className="text-muted-foreground" style={{ lineHeight: 1.8, fontSize: "1rem" }}>
-                  Thank you for reaching out. Chelsea will review your message and be in touch
-                  within <strong>1–2 business days</strong> to schedule your free Clarity Session.
-                </p>
+                {booked ? (
+                  <p className="text-muted-foreground" style={{ lineHeight: 1.8, fontSize: "1rem" }}>
+                    Thank you for scheduling. You'll receive a calendar invite and confirmation by
+                    email — Chelsea looks forward to meeting you.
+                  </p>
+                ) : (
+                  <p className="text-muted-foreground" style={{ lineHeight: 1.8, fontSize: "1rem" }}>
+                    Thank you for reaching out. Chelsea will review your message and be in touch
+                    within <strong>1–2 business days</strong> to schedule your free Clarity Session.
+                  </p>
+                )}
               </motion.div>
 
               <motion.div

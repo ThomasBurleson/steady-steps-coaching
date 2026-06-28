@@ -1,0 +1,10 @@
+# Netlify build + serverless function configuration.
+# The SPA redirect lives in public/_redirects (copied to dist/ at build time).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

@@ -55,6 +55,13 @@ const testimonials = [
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // "Book a Call" CTAs reveal the intake form; submitting it opens the Calendly
+  // scheduler (see Contact.tsx). The mobile variant also closes the menu.
+  const handleBook = (e: React.MouseEvent) => {
+    setMenuOpen(false);
+    scrollTo("contact")(e);
+  };
+
   // When arriving on the home page with a hash (e.g. navigating from a blog
   // page to "/#contact"), scroll to the target section once it has rendered.
   useEffect(() => {
@@ -157,7 +164,7 @@ export default function App() {
 
           <a
             href="#contact"
-            onClick={scrollTo("contact")}
+            onClick={handleBook}
             className="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-primary text-primary-foreground text-sm rounded-full hover:bg-primary/90 transition-colors"
           >
             Book a Call <ArrowRight size={14} aria-hidden="true" />
@@ -202,7 +209,7 @@ export default function App() {
             </Link>
             <a
               href="#contact"
-              onClick={scrollTo("contact")}
+              onClick={handleBook}
               className="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full"
             >
               Book a Call <ArrowRight size={16} aria-hidden="true" />
@@ -301,8 +308,8 @@ export default function App() {
               className="flex flex-wrap gap-4"
             >
               <a
-                href="#about"
-                onClick={scrollTo("contact")}
+                href="#contact"
+                onClick={handleBook}
                 className="inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-accent-foreground rounded-full hover:bg-accent/90 transition-colors"
                 style={{ fontWeight: 700 }}
               >
@@ -804,7 +811,7 @@ export default function App() {
             <div className="flex justify-end mt-8">
               <a
                 href="#contact"
-                onClick={scrollTo("contact")}
+                onClick={handleBook}
                 className="inline-flex items-center gap-2 text-primary-foreground"
                 style={{ fontWeight: 700, fontSize: "0.95rem", opacity: 0.85 }}
               >
