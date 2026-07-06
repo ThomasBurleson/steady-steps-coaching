@@ -135,6 +135,46 @@ function Block({ block }: { block: ContentBlock }) {
           ))}
         </ul>
       );
+    case "video": {
+      // Orientation drives sensible defaults; aspectRatio/maxWidth still override.
+      // portrait  → 9/16 short capped at 360px
+      // landscape → 16/9 filling the article column
+      const landscape = block.orientation === "landscape";
+      const aspectRatio = block.aspectRatio ?? (landscape ? "16 / 9" : "9 / 16");
+      const maxWidth = block.maxWidth ?? (landscape ? "100%" : "360px");
+      return (
+        <figure>
+          <div
+            className="mx-auto overflow-hidden"
+            style={{
+              maxWidth,
+              borderRadius: "16px",
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            <video
+              src={block.src}
+              controls
+              playsInline
+              preload="metadata"
+              poster={block.poster}
+              style={{
+                width: "100%",
+                height: "auto",
+                aspectRatio,
+                backgroundColor: "#000",
+                display: "block",
+              }}
+            />
+          </div>
+          {block.caption && (
+            <figcaption className="mt-3 text-sm text-center text-muted-foreground">
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    }
     default:
       return null;
   }

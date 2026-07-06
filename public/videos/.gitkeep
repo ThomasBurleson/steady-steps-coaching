@@ -1,0 +1,3 @@
+# Place blog video assets (.mp4) here. They are served from the site root,
+# e.g. public/videos/notebooklm-short.mp4  →  /videos/notebooklm-short.mp4
+# Reference them from a `video` ContentBlock in src/app/blog/_data.ts.

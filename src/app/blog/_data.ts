@@ -14,7 +14,26 @@ export type ContentBlock =
   | { type: "heading"; text: string }
   | { type: "image"; src: string; alt: string; caption?: string }
   | { type: "quote"; text: string; attribution?: string; small?: boolean }
-  | { type: "list"; items: string[] };
+  | { type: "list"; items: string[] }
+  | {
+      /** Embedded MP4 video. Defaults to a vertical short-form frame (9/16, 360px). */
+      type: "video";
+      /** Public path to the .mp4, e.g. "/videos/clip.mp4". */
+      src: string;
+      /** Optional thumbnail shown before playback, e.g. "/images/thumb.jpg". */
+      poster?: string;
+      caption?: string;
+      /**
+       * Sets sensible frame defaults:
+       *   "portrait" (default) → 9/16 short capped at 360px
+       *   "landscape"          → 16/9 filling the article column
+       */
+      orientation?: "portrait" | "landscape";
+      /** Override the CSS aspect-ratio (e.g. "4 / 3"). */
+      aspectRatio?: string;
+      /** Override the max width of the player (e.g. "480px"). */
+      maxWidth?: string;
+    };
 
 export interface Author {
   name: string;
@@ -51,7 +70,7 @@ const chelsea: Author = {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "small-steps-big-change",
+    slug: "ai-cannot-replace-humans",
     title: "Why AI Can't Replace Your Coach",
     excerpt:
       "AI can be a powerful tool, but it can't remember your journey or feel the weight of your experience. Here's why the human connection remains irreplaceable.",
@@ -59,7 +78,7 @@ export const blogPosts: BlogPost[] = [
     author: chelsea,
     date: "Jun 25",
     readTime: "5 min read",
-    tags: ["Habits", "Mindset", "Growth", "Self-care"],
+    tags: ["AI Coaching", "Human Connections", "Habits", "Mindset", "Growth", "Self-care"],
     likes: 875,
     comments: 0,
     content: [
@@ -72,15 +91,17 @@ export const blogPosts: BlogPost[] = [
         text: "While artificial intelligence can be a powerful tool for productivity, data analysis, and organization, it lacks the most fundamental component of genuine progress: shared **human experience.**",
       },
       {
-        type: "image",
-        src: "/ai-coaching-fails.jpg",
-        alt: "Life coaching with a real person vs AI",
-        caption: "",
+        type: "video",
+        src: "/videos/ai-vs-human-v2.mp4",
+        poster: "/ai-vs-human.jpg",
+        caption: "Why the human connection still matters",
+        orientation: "landscape",
       },
       {
         type: "paragraph",
         text: "When you engage in **1:1 coaching**, you aren’t just looking for output—you are looking for a mirror, a partner, and a witness to your growth. Here is why the human element remains irreplaceable in your journey toward your goals.",
       },
+
       {
         type: "heading",
         text: "1. The Gift of Being Remembered",
@@ -91,7 +112,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "Relying on technology for support often forces you to re-explain your background, your challenges, and your goals every single time—it’s like hitting \"reset\" on your own progress. For anyone seeking real change, that is more than just a technical hurdle; it’s a nightmare. It creates a cycle of frustration where you’re stuck rehashing the past just to get a \"bot\" up to speed, rather than using your time to actually move forward. You deserve to be heard by someone who **remembers your journey** as clearly as you do, so you can focus entirely on what matters most today.",
+        text: 'Relying on technology for support often forces you to re-explain your background, your challenges, and your goals every single time—it’s like hitting "reset" on your own progress. For anyone seeking real change, that is more than just a technical hurdle; it’s a nightmare. It creates a cycle of frustration where you’re stuck rehashing the past just to get a "bot" up to speed, rather than using your time to actually move forward. You deserve to be heard by someone who **remembers your journey** as clearly as you do, so you can focus entirely on what matters most today.',
       },
       {
         type: "heading",
@@ -99,7 +120,17 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: 'AI models are trained on patterns of language, but they cannot read the "in-between." A human coach provides a depth of connection that an automated tool completely misses by tuning into the unspoken elements of our dialogue.',
+        text: 'AI models are trained on patterns of language, but they cannot read the "in-between."',
+      },
+      {
+        type: "video",
+        src: "/videos/how_subtext_reveals.mp4",
+        poster: "/how-subtext-reveals.jpg",
+        caption: "Why the human connection still matters",
+      },
+      {
+        type: "paragraph",
+        text: "A human coach provides a depth of connection that an automated tool completely misses by tuning into the unspoken elements of our dialogue.",
       },
       {
         type: "paragraph",
