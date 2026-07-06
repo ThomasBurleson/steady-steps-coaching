@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import { ArrowRight, Menu, X, Quote, Leaf, Compass, Star, ChevronDown } from "lucide-react";
 import Contact from "./components/Contact";
 import { InsightsSection } from "./blog/List";
+import { blogPosts } from "./blog/_data";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1623967680551-3e4694e2c9ad?w=1800&h=900&fit=crop&auto=format";
@@ -823,7 +824,7 @@ export default function App() {
 
         {/* ── Insights / Blog ── */}
         <section id="insights" aria-labelledby="insights-heading" className="bg-background">
-          <InsightsSection />
+          <InsightsSection posts={blogPosts.slice(0, 3)} />
           <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 -mt-4 flex justify-end pb-8">
             <Link
               to="/blog"

@@ -16,6 +16,7 @@ import {
 import ReactMarkdown, { type Components } from "react-markdown";
 import BlogHeader from "./Header";
 import { getPostBySlug, type ContentBlock } from "./_data";
+import leafImg from "../../imports/leaf.png";
 
 /**
  * Inline markdown elements styled to match the article. Shared across every
@@ -78,14 +79,21 @@ function Block({ block }: { block: ContentBlock }) {
     case "heading":
       return (
         <h3
-          className="text-foreground"
+          className="flex items-center gap-3 text-foreground"
           style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: "clamp(1.4rem, 3vw, 1.8rem)",
             fontWeight: 500,
           }}
         >
-          {block.text}
+          <img
+            src={leafImg}
+            alt=""
+            aria-hidden="true"
+            className="shrink-0"
+            style={{ width: "1.4em", height: "auto" }}
+          />
+          <span>{block.text}</span>
         </h3>
       );
     case "image":
