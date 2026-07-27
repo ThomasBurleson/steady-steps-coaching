@@ -6,7 +6,7 @@
  * sequence of typed blocks so the article layout stays consistent across posts.
  */
 
-import likerAvatar from "../../imports/avatar.png";
+import likerAvatar from "../../_images/avatar.png";
 
 export type ContentBlock =
   | { type: "lead"; text: string }

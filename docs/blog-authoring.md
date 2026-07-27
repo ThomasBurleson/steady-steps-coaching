@@ -52,7 +52,7 @@ Each article's assets live in a folder named by its slug — images under
 `public/images/blog/<slug>/` and videos under `public/videos/<slug>/`. The hero `image`
 and video `poster` fields point at files in the image folder (or a remote URL). Keep an
 article's assets together and delete them if the post is removed. Assets imported through
-the bundler instead (e.g. `src/imports/*`) are `import`ed in TS, not served from
+the bundler instead (e.g. `src/_images/*`) are `import`ed in TS, not served from
 `public/` — that's a separate mechanism.
 
 ## markitdown MCP server
