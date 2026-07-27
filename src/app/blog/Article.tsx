@@ -17,6 +17,8 @@ import {
 import ReactMarkdown, { type Components } from "react-markdown";
 
 import BlogHeader from "./Header";
+import CommentsPanel from "./CommentsPanel";
+import { useReactions } from "./Article.hook";
 import { getPostBySlug, type ContentBlock } from "./_data";
 import leafImg from "../../_images/leaf.png";
 
@@ -26,9 +28,7 @@ import leafImg from "../../_images/leaf.png";
  * consistently.
  */
 const inlineMarkdown: Components = {
-  strong: ({ children }) => (
-    <strong className="font-semibold text-foreground">{children}</strong>
-  ),
+  strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
   em: ({ children }) => <em className="italic">{children}</em>,
   a: ({ href, children }) => (
     <a
@@ -122,7 +122,9 @@ function Block({ block }: { block: ContentBlock }) {
             style={{
               fontFamily: "'Playfair Display', serif",
               fontStyle: "italic",
-              fontSize: block.small ? "clamp(1rem, 1.6vw, 1.15rem)" : "clamp(1.25rem, 2.5vw, 1.5rem)",
+              fontSize: block.small
+                ? "clamp(1rem, 1.6vw, 1.15rem)"
+                : "clamp(1.25rem, 2.5vw, 1.5rem)",
               lineHeight: 1.5,
             }}
           >
@@ -200,6 +202,15 @@ export default function BlogArticle({ slug }: { slug: string }) {
   const post = getPostBySlug(slug);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [commentsOpen, setCommentsOpen] = useState(false);
+
+  // Persisted likes & moderated comments (see Article.hook.ts). Fallbacks keep
+  // the Rules of Hooks happy for the "post not found" case below.
+  const { likes, liked, comments, commentCount, loaded, toggleLike, submitComment } = useReactions(
+    slug,
+    post?.likes ?? 0,
+    post?.comments ?? 0,
+  );
 
   // Absolute URL of this article, used for every share target and og:url.
   const shareUrl = `${SITE_URL}/blog/${slug}`;
@@ -348,7 +359,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   <div>
                     <a
                       href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                        post.title
+                        post.title,
                       )}&url=${encodeURIComponent(shareUrl)}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -395,6 +406,10 @@ export default function BlogArticle({ slug }: { slug: string }) {
               ))}
             </div>
           </article>
+
+          {commentsOpen && (
+            <CommentsPanel comments={comments} loaded={loaded} onSubmit={submitComment} />
+          )}
         </div>
       </motion.div>
 
@@ -404,11 +419,18 @@ export default function BlogArticle({ slug }: { slug: string }) {
           <div className="flex items-center gap-x-1.5">
             <button
               type="button"
-              title="Like"
-              className="flex items-center gap-x-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:text-foreground"
+              title={liked ? "Unlike" : "Like"}
+              aria-pressed={liked}
+              onClick={toggleLike}
+              className={`flex items-center gap-x-2 text-sm hover:text-foreground focus:outline-none focus:text-foreground ${
+                liked ? "text-primary" : "text-muted-foreground"
+              }`}
             >
-              <Heart className="shrink-0 size-4" aria-hidden="true" />
-              {post.likes}
+              <Heart
+                className={`shrink-0 size-4 ${liked ? "fill-current" : ""}`}
+                aria-hidden="true"
+              />
+              {likes}
             </button>
 
             <div className="block h-3 border-e border-border mx-3" />
@@ -416,10 +438,12 @@ export default function BlogArticle({ slug }: { slug: string }) {
             <button
               type="button"
               title="Comment"
+              aria-expanded={commentsOpen}
+              onClick={() => setCommentsOpen((open) => !open)}
               className="flex items-center gap-x-2 text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:text-foreground"
             >
               <MessageCircle className="shrink-0 size-4" aria-hidden="true" />
-              {post.comments}
+              {commentCount}
             </button>
 
             <div className="block h-3 border-e border-border mx-3" />
@@ -453,7 +477,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   <a
                     className={shareItemClass}
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                      post.title
+                      post.title,
                     )}&url=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -464,7 +488,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   <a
                     className={shareItemClass}
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                      shareUrl
+                      shareUrl,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -475,7 +499,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   <a
                     className={shareItemClass}
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                      shareUrl
+                      shareUrl,
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
