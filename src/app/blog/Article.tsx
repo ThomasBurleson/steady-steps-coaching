@@ -196,7 +196,7 @@ const shareItemClass =
   "flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-foreground hover:bg-secondary focus:outline-none focus:bg-secondary";
 
 /** Canonical site origin used to build absolute, shareable article URLs. */
-const SITE_URL = "https://steadystepscoaching.com";
+const SITE_URL = "https://steadysteps.online";
 
 export default function BlogArticle({ slug }: { slug: string }) {
   const post = getPostBySlug(slug);

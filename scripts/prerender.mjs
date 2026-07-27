@@ -27,7 +27,7 @@ const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
 
 /** Canonical origin — keep in sync with SITE_URL in src/app/blog/Article.tsx. */
-const SITE_URL = "https://steadystepscoaching.com";
+const SITE_URL = "https://steadysteps.online";
 
 /**
  * Load `blogPosts` in Node by bundling _data.ts with esbuild and stubbing the
@@ -66,10 +66,12 @@ async function loadBlogPosts() {
 }
 
 /**
- * Upsize an Unsplash image URL to 1200px wide for the social card. Facebook's
- * `summary_large_image` wants ≥1200px, but the card-grid `image` URLs are only
- * ~560px. Non-Unsplash / relative paths are returned unchanged. OG-only — the
- * card grid still uses the original, lighter image.
+ * Resolve an article image to an absolute URL suitable for OG/Twitter cards.
+ * Unsplash URLs are upsized to 1200px wide (Facebook's `summary_large_image`
+ * wants ≥1200px, but the card-grid `image` URLs are only ~560px). Other absolute
+ * URLs pass through. Site-relative paths (e.g. `/images/blog/…`) are prefixed
+ * with `SITE_URL` — OG/Twitter require absolute image URLs and silently drop
+ * relative ones. OG-only — the card grid still uses the original, lighter image.
  */
 function toOgImage(src) {
   try {
@@ -79,10 +81,11 @@ function toOgImage(src) {
       u.searchParams.set("q", "80");
       return u.toString();
     }
+    return src; // some other absolute URL — use as-is
   } catch {
-    // Relative path or non-URL — leave as-is.
+    // Not an absolute URL — treat as a site-relative path and absolutize it.
+    return `${SITE_URL}${src.startsWith("/") ? "" : "/"}${src}`;
   }
-  return src;
 }
 
 /** Minimal HTML-attribute escaping for values interpolated into <meta content>. */
