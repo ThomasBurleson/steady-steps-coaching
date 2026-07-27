@@ -189,12 +189,18 @@ export default function Contact() {
                   {booked ? "Your session is booked!" : "Your request has been submitted!"}
                 </h2>
                 {booked ? (
-                  <p className="text-muted-foreground" style={{ lineHeight: 1.8, fontSize: "1rem" }}>
+                  <p
+                    className="text-muted-foreground"
+                    style={{ lineHeight: 1.8, fontSize: "1rem" }}
+                  >
                     Thank you for scheduling. You'll receive a calendar invite and confirmation by
                     email — Chelsea looks forward to meeting you.
                   </p>
                 ) : (
-                  <p className="text-muted-foreground" style={{ lineHeight: 1.8, fontSize: "1rem" }}>
+                  <p
+                    className="text-muted-foreground"
+                    style={{ lineHeight: 1.8, fontSize: "1rem" }}
+                  >
                     Thank you for reaching out. Chelsea will review your message and be in touch
                     within <strong>1–2 business days</strong> to schedule your free Clarity Session.
                   </p>

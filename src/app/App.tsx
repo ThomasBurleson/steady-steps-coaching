@@ -317,8 +317,8 @@ export default function App() {
               className="text-white/80 max-w-xl mb-10"
               style={{ fontSize: "1.05rem", lineHeight: 1.7 }}
             >
-              Thoughtful 1-on-1 guidance and consistent support for lasting
-              personal growth and mental health.
+              Thoughtful 1-on-1 guidance and consistent support for lasting personal growth and
+              mental health.
             </motion.p>
 
             <motion.div

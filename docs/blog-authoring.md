@@ -19,10 +19,15 @@ is a `ContentBlock[]` (typed blocks: `lead`, `paragraph`, `heading`, `image`, `q
 The `blog-convert` skill drives this end to end. The scripts:
 
 ```bash
-node scripts/fetch-gdoc.mjs "<share-url>" /tmp/post.docx     # Google Doc → .docx
-node scripts/extract-docx-images.mjs /tmp/post.docx --slug=post   # images → public/images/blog/post/
-node scripts/md-to-blocks.mjs /tmp/post.md --images="$IMGS"  # Markdown → pasteable content array
+mkdir -p .blog-tmp                                                  # gitignored scratch dir
+node scripts/fetch-gdoc.mjs "<share-url>" .blog-tmp/post.docx       # Google Doc → .docx
+node scripts/extract-docx-images.mjs .blog-tmp/post.docx --slug=post   # images → public/images/blog/post/
+node scripts/md-to-blocks.mjs .blog-tmp/post.md --images="$IMGS"    # Markdown → pasteable content array
 ```
+
+> Keep scratch files in the **repo** (`.blog-tmp/`), not `/tmp`: the markitdown MCP
+> `convert_file` tool rejects `/tmp` with `Security violation: invalid path`, but the
+> repo root is an allowed root. Pass an **absolute** repo path as its `file_path`.
 
 `md-to-blocks` maps `##`→`heading`, first paragraph→`lead`, others→`paragraph`,
 `![alt](src)`→`image`, `>`→`quote`, `-`/`1.`→`list`, preserves inline
@@ -35,8 +40,8 @@ folder `public/images/blog/<slug>/N.ext` in document order, and `md-to-blocks --
 substitutes those `/images/blog/<slug>/N.ext` paths into the `image` blocks. The
 extracted files are committed with the post. Fill in `alt` text by hand.
 
-**Cleanup:** after the post is in `_data.ts`, delete the temp `.docx` and `.md`
-(`rm -f /tmp/post.docx /tmp/post.md`); keep the images under `public/`.
+**Cleanup:** after the post is in `_data.ts`, delete the scratch dir
+(`rm -rf .blog-tmp`); keep the images under `public/`.
 
 ## Title style
 
@@ -82,8 +87,11 @@ the id, saves into a safe directory, and verifies it got a real document (not a 
 page):
 
 ```bash
-npm run blog:fetch -- "<google-docs-share-url>"     # → prints /tmp/gdoc-<id>.docx
+npm run blog:fetch -- "<google-docs-share-url>" .blog-tmp/post.docx   # pass a repo path
 ```
+
+Without an explicit path the fetcher defaults to `/tmp/gdoc-<id>.docx`, which markitdown
+**cannot read** — always pass a `.blog-tmp/…` target (see the scratch-dir note above).
 
 The doc must be shared **"Anyone with the link → Viewer"**. Engine:
 [`scripts/fetch-gdoc.mjs`](../scripts/fetch-gdoc.mjs) (export URL is

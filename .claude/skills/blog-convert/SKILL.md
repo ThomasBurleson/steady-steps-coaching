@@ -20,27 +20,39 @@ Sources are **Google Docs** (`docs.google.com`). Pick a `<slug>` up front (kebab
 unique) — it names both the article and its image files. Skip ahead if you already have
 a local file or Markdown (but you still need the .docx for images).
 
+> **Scratch dir — do NOT use `/tmp`.** The markitdown MCP `convert_file` tool rejects
+> paths outside its allowed roots with `Security violation: invalid path`, and `/tmp`
+> (which resolves to `/private/tmp` on macOS) is **not** allowed. The **repo root is
+> allowed**, so keep every temp file (`.docx`, `.md`) in a gitignored scratch dir inside
+> the repo — this skill uses `.blog-tmp/` (already in `.gitignore`). Create it once with
+> `mkdir -p .blog-tmp`. The extraction/convert scripts accept any path, but routing
+> everything through `.blog-tmp/` keeps one clean, markitdown-readable location.
+
 ## Steps
 
 0. **Download the Google Doc as .docx.** The markitdown MCP server does NOT fetch URLs
    (`convert_file` only takes a local `file_path`), and a Google Docs share link is an
    HTML page, not a file. Use the fetcher, which resolves the export endpoint, saves
-   into a safe directory, and verifies it got a real document:
+   the file, and verifies it got a real document:
    ```bash
-   npm run --silent blog:fetch -- "<google-docs-share-url>" /tmp/<slug>.docx
+   mkdir -p .blog-tmp
+   npm run --silent blog:fetch -- "<google-docs-share-url>" .blog-tmp/<slug>.docx
    ```
    The doc must be shared **"Anyone with the link → Viewer"** — otherwise Google returns
    a sign-in page and the fetcher errors out with that hint. (It accepts `/edit` links,
    `open?id=` links, or a bare doc id.) Keep the `.docx` — step 2 needs it for images.
 
 1. **Get Markdown.** Convert the downloaded file with the markitdown MCP `convert_file`
-   tool (`file_path: "/tmp/<slug>.docx"`). Save the returned Markdown to `/tmp/<slug>.md`.
+   tool. Pass an **absolute** path under the repo (relative paths and `/tmp` are
+   rejected), e.g. `file_path: "<repo>/.blog-tmp/<slug>.docx"`. Save the returned Markdown
+   to `.blog-tmp/<slug>.md`. (markitdown emits only a `data:` placeholder per image, not
+   real image bytes — step 2 pulls the real files out of the `.docx`.)
 
 2. **Extract images to /public.** markitdown does NOT include real image data (just a
    `data:` placeholder), so pull the embedded images out of the .docx into a per-article
    folder `public/images/blog/<slug>/` in document order:
    ```bash
-   node scripts/extract-docx-images.mjs /tmp/<slug>.docx --slug=<slug>
+   node scripts/extract-docx-images.mjs .blog-tmp/<slug>.docx --slug=<slug>
    # → prints JSON, e.g. ["/images/blog/<slug>/1.png"]  (files: public/images/blog/<slug>/N.ext)
    ```
    Capture that JSON — it maps 1:1, in order, to the `data:` placeholders in the Markdown.
@@ -48,8 +60,8 @@ a local file or Markdown (but you still need the .docx for images).
 
 3. **Convert to blocks**, substituting the extracted image paths:
    ```bash
-   IMGS=$(node scripts/extract-docx-images.mjs /tmp/<slug>.docx --slug=<slug>)
-   node scripts/md-to-blocks.mjs /tmp/<slug>.md --images="$IMGS"
+   IMGS=$(node scripts/extract-docx-images.mjs .blog-tmp/<slug>.docx --slug=<slug>)
+   node scripts/md-to-blocks.mjs .blog-tmp/<slug>.md --images="$IMGS"
    #   flags: --json | --no-lead | --keep-data-images
    ```
    (Call `node scripts/...` directly for clean stdout, or `npm run --silent blog:convert`.)
@@ -76,10 +88,10 @@ a local file or Markdown (but you still need the .docx for images).
    split awkwardly), then:
    ```bash
    npm run format
-   rm -f /tmp/<slug>.docx /tmp/<slug>.md    # delete the temp source + markdown
+   rm -rf .blog-tmp    # delete the temp source + markdown
    ```
-   Delete only the temp `.docx`/`.md` — the extracted images under `public/images/blog/`
-   stay (they're part of the post).
+   Delete only the `.blog-tmp/` scratch dir — the extracted images under
+   `public/images/blog/` stay (they're part of the post).
 
 ## Notes
 

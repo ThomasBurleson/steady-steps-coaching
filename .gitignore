@@ -18,3 +18,6 @@ pnpm-debug.log*
 
 # OS artifacts
 .DS_Store
+
+# Blog-convert scratch (temp .docx/.md; markitdown can't read /tmp — see blog-convert skill)
+.blog-tmp/
