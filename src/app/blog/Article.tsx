@@ -9,7 +9,6 @@ import {
   MessageCircle,
   Share2,
   Link2,
-  Twitter,
   Facebook,
   Linkedin,
   UserPlus,
@@ -21,6 +20,18 @@ import CommentsPanel from "./CommentsPanel";
 import { useReactions } from "./Article.hook";
 import { getPostBySlug, type ContentBlock } from "./_data";
 import leafImg from "../../_images/leaf.png";
+
+/**
+ * X (formerly Twitter) logo. lucide-react doesn't ship X's brand mark, so this
+ * is the official glyph as inline SVG, coloured via `currentColor`.
+ */
+function XLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 1200 1227" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284h.026ZM569.165 687.828l-47.468-67.894L144.011 79.6944h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854v-.026Z" />
+    </svg>
+  );
+}
 
 /**
  * Inline markdown elements styled to match the article. Shared across every
@@ -358,15 +369,15 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   </div>
                   <div>
                     <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      href={`https://x.com/intent/post?text=${encodeURIComponent(
                         post.title,
                       )}&url=${encodeURIComponent(shareUrl)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-card border border-border text-foreground shadow-sm hover:bg-secondary focus:outline-none"
                     >
-                      <Twitter className="size-3.5" aria-hidden="true" />
-                      Tweet
+                      <XLogo className="size-3.5" />
+                      Post
                     </a>
                   </div>
                 </div>
@@ -476,14 +487,14 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   <div className="border-t border-border my-2" />
                   <a
                     className={shareItemClass}
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                    href={`https://x.com/intent/post?text=${encodeURIComponent(
                       post.title,
                     )}&url=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Twitter className="shrink-0 size-4" aria-hidden="true" />
-                    Share on Twitter
+                    <XLogo className="shrink-0 size-4" />
+                    Share on X
                   </a>
                   <a
                     className={shareItemClass}
