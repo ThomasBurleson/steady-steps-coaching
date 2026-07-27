@@ -40,15 +40,33 @@ const approachSteps = [
 const testimonials = [
   {
     quote:
-      "Working with this coach gave me the language for what I was feeling and the roadmap to do something about it. I felt truly seen.",
-    name: "Mara T.",
-    role: "Marketing Director",
+      "Working with Chelsea has completely changed how I tackle my to-do list. She helps me simplify overwhelming goals into realistic steps.",
+    name: "",
+    role: "",
   },
   {
     quote:
-      "I came in overwhelmed and left each session with more calm than I thought possible. The steady, structured approach changed everything.",
-    name: "James R.",
-    role: "Entrepreneur",
+      "Chelsea is exactly the kind of person you want in your corner. She holds me accountable without adding any unnecessary stress, and her guidance makes even the most intimidating tasks feel totally realistic.",
+    name: "",
+    role: "",
+  },
+  {
+    quote:
+      "It’s been such a relief to have Chelsea helping me. We take our time to talk through what I want to do, and it really feels like we’re just working together to make sure the goals actually make sense for me.",
+    name: "",
+    role: "",
+  },
+  {
+    quote:
+      "Working with Chelsea is super laid-back. We take our time figuring out my goals, and if I need to change directions, we just do it. It feels like we’re just two people working together to get stuff done, no pressure at all.",
+    name: "",
+    role: "",
+  },
+  {
+    quote:
+      "I really like that we don't have to stick to some strict, straight line. Chelsea gets that life happens, and she’s totally fine with changing our approach when I need to. It really feels like a partnership where we’re just working on whatever makes the most sense for me right now",
+    name: "",
+    role: "",
   },
 ];
 
