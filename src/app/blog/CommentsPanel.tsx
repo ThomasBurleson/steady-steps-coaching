@@ -48,7 +48,7 @@ export default function CommentsPanel({
         className="text-foreground mb-6"
         style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 500 }}
       >
-        Comments{loaded ? ` (${comments.length})` : ""}
+        Comments{comments.length > 0 ? ` (${comments.length})` : ""}
       </h2>
 
       {/* Existing approved comments */}

@@ -83,7 +83,7 @@ export function InsightsSection({ posts = blogPosts }: { posts?: BlogPost[] }) {
       </div>
 
       {/* Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-16">
         {posts.map((post, index) => (
           <PostCard key={post.slug} post={post} index={index} />
         ))}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { motion } from "motion/react";
@@ -214,6 +214,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
+  const commentsRef = useRef<HTMLDivElement>(null);
 
   // Persisted likes & moderated comments (see Article.hook.ts). Fallbacks keep
   // the Rules of Hooks happy for the "post not found" case below.
@@ -239,6 +240,14 @@ export default function BlogArticle({ slug }: { slug: string }) {
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [slug]);
+
+  // The Comment button lives in the sticky bottom bar, but the panel renders at
+  // the end of the article — scroll it into view so opening it is visible.
+  useEffect(() => {
+    if (commentsOpen) {
+      commentsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [commentsOpen]);
 
   if (!post) {
     return (
@@ -419,7 +428,9 @@ export default function BlogArticle({ slug }: { slug: string }) {
           </article>
 
           {commentsOpen && (
-            <CommentsPanel comments={comments} loaded={loaded} onSubmit={submitComment} />
+            <div ref={commentsRef} className="scroll-mt-24">
+              <CommentsPanel comments={comments} loaded={loaded} onSubmit={submitComment} />
+            </div>
           )}
         </div>
       </motion.div>
