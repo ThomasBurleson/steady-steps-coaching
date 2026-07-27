@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/prerender.mjs",
     "dev": "vite",
     "typecheck": "tsc -b",
     "test": "node --test \"test/**/*.test.ts\"",

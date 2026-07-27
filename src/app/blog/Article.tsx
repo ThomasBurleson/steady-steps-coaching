@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { motion } from "motion/react";
+
 import {
   ArrowLeft,
   Heart,
@@ -14,9 +15,10 @@ import {
   UserPlus,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
+
 import BlogHeader from "./Header";
 import { getPostBySlug, type ContentBlock } from "./_data";
-import leafImg from "../../imports/leaf.png";
+import leafImg from "../../_images/leaf.png";
 
 /**
  * Inline markdown elements styled to match the article. Shared across every
@@ -191,9 +193,26 @@ function Block({ block }: { block: ContentBlock }) {
 const shareItemClass =
   "flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-foreground hover:bg-secondary focus:outline-none focus:bg-secondary";
 
+/** Canonical site origin used to build absolute, shareable article URLs. */
+const SITE_URL = "https://steadystepscoaching.com";
+
 export default function BlogArticle({ slug }: { slug: string }) {
   const post = getPostBySlug(slug);
   const [shareOpen, setShareOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  // Absolute URL of this article, used for every share target and og:url.
+  const shareUrl = `${SITE_URL}/blog/${slug}`;
+
+  async function handleCopyLink() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API unavailable (e.g. insecure context) — leave menu open.
+    }
+  }
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -231,6 +250,20 @@ export default function BlogArticle({ slug }: { slug: string }) {
       <Helmet>
         <title>{post.title} — Steady-Steps Life Coaching</title>
         <meta name="description" content={post.excerpt} />
+
+        {/* Open Graph — controls the preview card on Facebook/LinkedIn */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:image" content={post.image} />
+        <meta property="og:url" content={shareUrl} />
+        <link rel="canonical" href={shareUrl} />
+
+        {/* Twitter card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:image" content={post.image} />
       </Helmet>
 
       <BlogHeader />
@@ -314,7 +347,9 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   </div>
                   <div>
                     <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                        post.title
+                      )}&url=${encodeURIComponent(shareUrl)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="py-1.5 px-2.5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg bg-card border border-border text-foreground shadow-sm hover:bg-secondary focus:outline-none"
@@ -406,20 +441,45 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   role="menu"
                   className="absolute bottom-full right-0 mb-2 w-56 z-10 bg-card border border-border shadow-md rounded-xl p-2 text-left"
                 >
-                  <button type="button" className={`w-full ${shareItemClass}`}>
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className={`w-full ${shareItemClass}`}
+                  >
                     <Link2 className="shrink-0 size-4" aria-hidden="true" />
-                    Copy link
+                    {copied ? "Link copied!" : "Copy link"}
                   </button>
                   <div className="border-t border-border my-2" />
-                  <a className={shareItemClass} href="#">
+                  <a
+                    className={shareItemClass}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      post.title
+                    )}&url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Twitter className="shrink-0 size-4" aria-hidden="true" />
                     Share on Twitter
                   </a>
-                  <a className={shareItemClass} href="#">
+                  <a
+                    className={shareItemClass}
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                      shareUrl
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Facebook className="shrink-0 size-4" aria-hidden="true" />
                     Share on Facebook
                   </a>
-                  <a className={shareItemClass} href="#">
+                  <a
+                    className={shareItemClass}
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                      shareUrl
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Linkedin className="shrink-0 size-4" aria-hidden="true" />
                     Share on LinkedIn
                   </a>
