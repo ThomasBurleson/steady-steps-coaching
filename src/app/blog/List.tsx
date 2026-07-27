@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
@@ -14,7 +14,11 @@ function PostCard({ post, index }: { post: BlogPost; index: number }) {
       viewport={{ once: false }}
       transition={{ duration: 0.6, delay: index * 0.08 }}
     >
-      <Link to={`/blog/${post.slug}`} className="group flex flex-col focus:outline-none">
+      <Link
+        to="/blog/$slug"
+        params={{ slug: post.slug }}
+        className="group flex flex-col focus:outline-none"
+      >
         <div className="relative pt-[50%] sm:pt-[70%] rounded-xl overflow-hidden">
           <img
             className="size-full absolute top-0 left-0 object-cover group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out rounded-xl"

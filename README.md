@@ -10,4 +10,17 @@
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
-  
+
+  ## Routing
+
+  File-based routing via [TanStack Router](https://tanstack.com/router): routes live in
+  `src/routes/**` and page components in `src/app/**`. See
+  [docs/routing.md](docs/routing.md) for conventions, adding routes, and gotchas.
+
+  ## Authoring Blog Articles
+
+  Blog articles start as online Word documents and are converted to Markdown with the
+  [markitdown MCP server](https://github.com/trsdn/markitdown-mcp), then mapped into
+  typed content blocks in `src/app/blog/_data.ts`. See
+  [docs/blog-authoring.md](docs/blog-authoring.md) for the full workflow and setup
+  (including the Intel-Mac `cryptography<49` install caveat).

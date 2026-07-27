@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { motion } from "motion/react";
 import {
@@ -191,8 +191,7 @@ function Block({ block }: { block: ContentBlock }) {
 const shareItemClass =
   "flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-foreground hover:bg-secondary focus:outline-none focus:bg-secondary";
 
-export default function BlogArticle() {
-  const { slug } = useParams();
+export default function BlogArticle({ slug }: { slug: string }) {
   const post = getPostBySlug(slug);
   const [shareOpen, setShareOpen] = useState(false);
 

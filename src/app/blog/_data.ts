@@ -215,7 +215,7 @@ export const blogPosts: BlogPost[] = [
     title: "Why AI Can't Replace Your Coach",
     excerpt:
       "AI can be a powerful tool, but it can't remember your journey or feel the weight of your experience. Here's why the human connection remains irreplaceable.",
-    image: "/ai-coaching-fails.jpg",
+    image: "/images/blog/ai-cannot-replace-humans/ai-coaching-fails.jpg",
     author: chelsea,
     date: "Jun 25",
     readTime: "5 min read",
@@ -233,8 +233,8 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "video",
-        src: "/videos/ai-vs-human-v2.mp4",
-        poster: "/ai-vs-human.jpg",
+        src: "/videos/ai-cannot-replace-humans/ai-vs-human-v2.mp4",
+        poster: "/images/blog/ai-cannot-replace-humans/ai-vs-human.jpg",
         caption: "Why the human connection still matters",
         orientation: "landscape",
       },
@@ -265,8 +265,8 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "video",
-        src: "/videos/how_subtext_reveals.mp4",
-        poster: "/how-subtext-reveals.jpg",
+        src: "/videos/ai-cannot-replace-humans/how_subtext_reveals.mp4",
+        poster: "/images/blog/ai-cannot-replace-humans/how-subtext-reveals.jpg",
         caption: "Why the human connection still matters",
       },
       {

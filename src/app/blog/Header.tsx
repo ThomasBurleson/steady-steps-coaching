@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 /**
@@ -7,6 +7,9 @@ import { ArrowRight } from "lucide-react";
  * rather than in-page anchors.
  */
 export default function BlogHeader() {
+  // The "Book a Call" CTA points at /contact, so hide it when already there.
+  const onContactPage = useLocation({ select: (l) => l.pathname === "/contact" });
+
   return (
     <nav
       aria-label="Main navigation"
@@ -34,12 +37,14 @@ export default function BlogHeader() {
         </Link>
       </div>
 
-      <Link
-        to="/#contact"
-        className="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-primary text-primary-foreground text-sm rounded-full hover:bg-primary/90 transition-colors"
-      >
-        Book a Call <ArrowRight size={14} aria-hidden="true" />
-      </Link>
+      {!onContactPage && (
+        <Link
+          to="/contact"
+          className="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-primary text-primary-foreground text-sm rounded-full hover:bg-primary/90 transition-colors"
+        >
+          Book a Call <ArrowRight size={14} aria-hidden="true" />
+        </Link>
+      )}
     </nav>
   );
 }
