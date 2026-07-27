@@ -11,6 +11,7 @@ import {
   Link2,
   Facebook,
   Linkedin,
+  Instagram,
   UserPlus,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
@@ -213,6 +214,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
   const post = getPostBySlug(slug);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [canNativeShare, setCanNativeShare] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
   const commentsRef = useRef<HTMLDivElement>(null);
 
@@ -234,6 +236,23 @@ export default function BlogArticle({ slug }: { slug: string }) {
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Clipboard API unavailable (e.g. insecure context) — leave menu open.
+    }
+  }
+
+  // Instagram has no web share-intent URL, so the only route to it is the native
+  // OS share sheet (navigator.share), which only offers Instagram on mobile. Gate
+  // the menu item on a touch device that supports the API. Computed post-mount to
+  // stay hydration-safe against the prerendered HTML.
+  useEffect(() => {
+    const coarse = window.matchMedia?.("(pointer: coarse)").matches ?? false;
+    setCanNativeShare(coarse && typeof navigator.share === "function");
+  }, []);
+
+  async function handleNativeShare() {
+    try {
+      await navigator.share({ title: post?.title, text: post?.excerpt, url: shareUrl });
+    } catch {
+      // User dismissed the share sheet, or the share failed — no-op.
     }
   }
 
@@ -489,7 +508,10 @@ export default function BlogArticle({ slug }: { slug: string }) {
                 >
                   <button
                     type="button"
-                    onClick={handleCopyLink}
+                    onClick={() => {
+                      handleCopyLink();
+                      setShareOpen(false);
+                    }}
                     className={`w-full ${shareItemClass}`}
                   >
                     <Link2 className="shrink-0 size-4" aria-hidden="true" />
@@ -498,6 +520,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   <div className="border-t border-border my-2" />
                   <a
                     className={shareItemClass}
+                    onClick={() => setShareOpen(false)}
                     href={`https://x.com/intent/post?text=${encodeURIComponent(
                       post.title,
                     )}&url=${encodeURIComponent(shareUrl)}`}
@@ -509,6 +532,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   </a>
                   <a
                     className={shareItemClass}
+                    onClick={() => setShareOpen(false)}
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                       shareUrl,
                     )}`}
@@ -520,6 +544,7 @@ export default function BlogArticle({ slug }: { slug: string }) {
                   </a>
                   <a
                     className={shareItemClass}
+                    onClick={() => setShareOpen(false)}
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                       shareUrl,
                     )}`}
@@ -529,6 +554,19 @@ export default function BlogArticle({ slug }: { slug: string }) {
                     <Linkedin className="shrink-0 size-4" aria-hidden="true" />
                     Share on LinkedIn
                   </a>
+                  {canNativeShare && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleNativeShare();
+                        setShareOpen(false);
+                      }}
+                      className={`w-full ${shareItemClass}`}
+                    >
+                      <Instagram className="shrink-0 size-4" aria-hidden="true" />
+                      Share on Instagram
+                    </button>
+                  )}
                 </div>
               )}
             </div>
