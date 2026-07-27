@@ -38,6 +38,14 @@ extracted files are committed with the post. Fill in `alt` text by hand.
 **Cleanup:** after the post is in `_data.ts`, delete the temp `.docx` and `.md`
 (`rm -f /tmp/post.docx /tmp/post.md`); keep the images under `public/`.
 
+## Title style
+
+Article `title`s use **sentence case** — capitalize only the first word plus proper
+nouns and acronyms (e.g. `Why AI can't replace your coach`, `The art of saying no`),
+**not** Title Case. The title feeds the on-page `<h1>` and the `<title>` / `og:title` /
+`twitter:title` tags. The `slug` is independent (always lowercase-kebab) and does not
+change when a title's casing does.
+
 ## Public assets & paths
 
 Vite serves everything under [`public/`](../public) from the site root, so a file at

@@ -71,7 +71,7 @@ const chelsea: Author = {
 export const blogPosts: BlogPost[] = [
   {
     slug: "no-one-size-fits-all-coaching",
-    title: 'Why There Is No "One-Size-Fits-All" Approach to Coaching',
+    title: 'Why there is no "one-size-fits-all" approach to coaching',
     excerpt:
       "SMART goals, habit stacking, productivity systems—these frameworks can help, but they're tools, not rules. The best coaching adapts to the person in front of you.",
     image:
@@ -212,7 +212,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "ai-cannot-replace-humans",
-    title: "Why AI Can't Replace Your Coach",
+    title: "Why AI can't replace your coach",
     excerpt:
       "AI can be a powerful tool, but it can't remember your journey or feel the weight of your experience. Here's why the human connection remains irreplaceable.",
     image: "/images/blog/ai-cannot-replace-humans/ai-coaching-fails.jpg",
@@ -329,7 +329,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "building-routines-that-last",
-    title: "Building Routines That Last",
+    title: "Building routines that last",
     excerpt:
       "Routines fail when they fight your life. Here's how to build ones that fit your energy—steady, repeatable, and kind.",
     image:
@@ -376,7 +376,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "the-art-of-saying-no",
-    title: "The Art of Saying No",
+    title: "The art of saying no",
     excerpt:
       "Protecting your bandwidth isn't selfish—it's how you stay steady. A gentle guide to setting boundaries that hold.",
     image:

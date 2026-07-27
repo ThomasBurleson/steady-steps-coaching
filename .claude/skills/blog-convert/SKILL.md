@@ -64,7 +64,9 @@ a local file or Markdown (but you still need the .docx for images).
 4. **Assemble the `BlogPost`.** Add a new object to the `blogPosts` array in
    `src/app/blog/_data.ts` with the generated `content`, plus the fields the script
    can't infer:
-   - `slug` (the `<slug>` you chose), `title` (from the `// Title:` comment), `excerpt`
+   - `slug` (the `<slug>` you chose), `title` (from the `// Title:` comment — rewrite to
+     **sentence case**: only the first word + proper nouns/acronyms capitalized, e.g.
+     "Why AI can't replace your coach"), `excerpt`
    - `image` (hero — often `/images/blog/<slug>/1.<ext>`), `author` (e.g. `chelsea`)
    - `date` (short, e.g. "Jul 6"), `readTime` (e.g. "6 min read")
    - `tags`, `likes`, `comments` (start at 0)
