@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "@tanstack/react-router";
-import likerPortrait from "../imports/liker-portrait.jpeg";
-import coachingImage from "../imports/image-1.png";
+import likerPortrait from "../_images/liker-portrait.jpeg";
+import coachingImage from "../_images/image-1.png";
 import { motion } from "motion/react";
 import { ArrowRight, Menu, X, Quote, Leaf, Compass, Star, ChevronDown } from "lucide-react";
 import { InsightsSection } from "./blog/List";

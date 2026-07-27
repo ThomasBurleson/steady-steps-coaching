@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { useContactForm } from "./Contact.hook";
 import { useCalendly } from "../calendly/CalendlyProvider";
-import leafImg from "../../imports/leaf.png";
+import leafImg from "../../_images/leaf.png";
 
 const inputClass =
   "w-full px-4 py-2.5 rounded-lg border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition text-sm";
