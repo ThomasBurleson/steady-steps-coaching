@@ -24,3 +24,10 @@
   typed content blocks in `src/app/blog/_data.ts`. See
   [docs/blog-authoring.md](docs/blog-authoring.md) for the full workflow and setup
   (including the Intel-Mac `cryptography<49` install caveat).
+
+  ## Likes & Comments
+
+  Blog articles persist Like counts and (moderated) Comments via Netlify Blobs and
+  Netlify Functions. See [docs/blog-reactions.md](docs/blog-reactions.md) for the data
+  model, environment variables, and the SMS-based moderation flow. Run `netlify dev`
+  (not `npm run dev`) to exercise the functions locally.
