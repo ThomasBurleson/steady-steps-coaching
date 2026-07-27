@@ -64,11 +64,133 @@ const chelsea: Author = {
   name: "Chelsea",
   avatar: likerAvatar,
   bio: "Chelsea is a mental-health and life coach with 15+ years helping people make personal growth feel natural, sustainable, and kind.",
-  articles: 4,
+  articles: 5,
   followers: "",
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "do-something-secret",
+    title: 'The "Do Something" secret: how to get motivated when you\'re feeling stuck',
+    excerpt:
+      'Stop waiting to feel inspired. Mark Manson\'s "Do Something" Principle flips the equation—one tiny action creates momentum, and the motivation follows.',
+    image: "/images/blog/do-something-secret/1.png",
+    author: chelsea,
+    date: "Jul 27",
+    readTime: "4 min read",
+    tags: ["Motivation", "Productivity", "Mindset", "Habits"],
+    likes: 0,
+    comments: 0,
+    content: [
+      {
+        type: "image",
+        src: "/images/blog/do-something-secret/1.png",
+        alt: "A person in cropped jeans and slip-on shoes taking a step forward across a bright, minimalist room.",
+      },
+      {
+        type: "lead",
+        text: "We’ve all been there. You have a goal you genuinely want to achieve—whether it’s writing a book, finishing a work project, or finally getting your resume in order.",
+      },
+      {
+        type: "paragraph",
+        text: "But instead of working on it, you’re staring at a blank screen, waiting. Waiting for that sudden, magical burst of inspiration to strike.",
+      },
+      {
+        type: "paragraph",
+        text: "Here is a liberating truth: **Inspiration may not always be the starting line.**",
+      },
+      {
+        type: "paragraph",
+        text: "If you are waiting to *feel* motivated before you take action, you might be waiting forever. Fortunately, there is a much easier, more compassionate way to get moving.",
+      },
+      {
+        type: "heading",
+        text: "Flipping the Motivation Equation",
+      },
+      {
+        type: "paragraph",
+        text: 'Author and researcher Mark Manson popularized a brilliant concept called the **"Do Something" Principle**. It turns everything we think we know about motivation completely on its head.',
+      },
+      {
+        type: "paragraph",
+        text: "Most of us assume that motivation is a linear, three-step chain that looks like this:",
+      },
+      {
+        type: "quote",
+        text: "Inspiration → Motivation → Action",
+        small: true,
+      },
+      {
+        type: "paragraph",
+        text: "Under this model, if you don't feel inspired, you can't get motivated, and therefore you can't take action. It’s a perfect recipe for procrastination and guilt.",
+      },
+      {
+        type: "paragraph",
+        text: "But Manson points out that motivation is actually a continuous loop. **Action isn't just the effect of motivation; it is also the cause.**",
+      },
+      {
+        type: "quote",
+        text: "Action → Inspiration → Motivation",
+        small: true,
+      },
+      {
+        type: "paragraph",
+        text: "When you do just one small thing, that tiny action creates a microscopic sense of momentum. That momentum sparks a little bit of inspiration, which finally triggers the motivation to do the next thing.",
+      },
+      {
+        type: "paragraph",
+        text: "**The takeaway:** If you’re stuck, don’t wait for motivation. Just *do something*—anything, no matter how small—and let the motivation follow.",
+      },
+      {
+        type: "heading",
+        text: 'Why There is No "One-Size-Fits-All" Action',
+      },
+      {
+        type: "paragraph",
+        text: 'Some productivity gurus will tell you that "doing something" means you need to wake up at 4:30 AM and run a 5k.',
+      },
+      {
+        type: "paragraph",
+        text: "**We don’t need to do that here.**",
+      },
+      {
+        type: "paragraph",
+        text: 'The beauty of the "Do Something" principle is that you get to define what "something" looks like. It should be so ridiculously easy that your brain has zero excuse to resist it.',
+      },
+      {
+        type: "list",
+        items: [
+          '**If your goal is to write a book:** "Something" is writing one single sentence.',
+          '**If your goal is to clean the house:** "Something" is putting away one coffee mug.',
+          '**If your goal is to exercise:** "Something" is putting on your sneakers and stepping outside for five minutes.',
+        ],
+      },
+      {
+        type: "paragraph",
+        text: 'There is no right or wrong way to apply this. Your "something" is entirely tailored to your energy levels, your lifestyle, and how you feel on any given day.',
+      },
+      {
+        type: "heading",
+        text: "Your Challenge for Today",
+      },
+      {
+        type: "paragraph",
+        text: "What is one tiny, low-stakes action you can take right now towards your goal?",
+      },
+      {
+        type: "paragraph",
+        text: "Don't worry about finishing the project. Don't worry about doing it perfectly. Just take one small step, and give yourself permission to stop immediately after if you want to.",
+      },
+      {
+        type: "paragraph",
+        text: "You might be surprised at what happens next.",
+      },
+      {
+        type: "paragraph",
+        text: 'Now that you\'ve identified the "something" you want to do, which part of the Steady Steps approach—Clarify, Simplify, Stabilize, or Sustain—do you feel you need to focus on most as you move forward?',
+      },
+    ],
+  },
   {
     slug: "no-one-size-fits-all-coaching",
     title: 'Why there is no "one-size-fits-all" approach to coaching',
