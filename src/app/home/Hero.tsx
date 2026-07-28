@@ -1,15 +1,20 @@
 import { motion } from "motion/react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { scrollToId } from "./scroll";
+import { scrollToSection } from "../utils/scroll";
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1623967680551-3e4694e2c9ad?w=1800&h=900&fit=crop&auto=format";
 
 /**
  * Above-the-fold hero. Kept eager (not lazy) — it holds the LCP image, so it
- * must render on first paint. The hero image is loaded eagerly with
- * `fetchPriority="high"` to prioritise the LCP candidate.
+ * must render on first paint. The hero image is loaded eagerly with a
+ * `fetchpriority="high"` hint to prioritise the LCP candidate.
+ *
+ * Note: React 18's DOM renderer doesn't map the camelCase `fetchPriority` prop
+ * (that's React 19), so we spread the lowercase `fetchpriority` attribute — React
+ * passes unknown lowercase attributes straight to the DOM, and the spread keeps
+ * TypeScript happy (its img types only know the camelCase form).
  */
 export default function Hero() {
   return (
@@ -22,7 +27,7 @@ export default function Hero() {
         src={HERO_IMAGE}
         alt="Forest path winding through tall trees"
         className="absolute inset-0 w-full h-full object-cover"
-        fetchPriority="high"
+        {...{ fetchpriority: "high" }}
         style={{ zIndex: 0 }}
       />
 
@@ -112,7 +117,7 @@ export default function Hero() {
           </Link>
           <a
             href="#about"
-            onClick={scrollToId("about")}
+            onClick={scrollToSection("about")}
             className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/40 text-white rounded-full hover:bg-white/10 transition-colors"
           >
             Learn More <ChevronDown size={16} aria-hidden="true" />

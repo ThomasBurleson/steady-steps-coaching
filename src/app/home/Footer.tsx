@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { scrollToSection } from "../utils/scroll";
 
 /** Site footer. Static (eager) — cheap, no `motion`, no benefit to deferring. */
 export default function Footer() {
@@ -24,10 +25,18 @@ export default function Footer() {
           © 2024 Steady Steps Coaching. All rights reserved.
         </p>
         <div className="flex gap-6 text-muted-foreground" style={{ fontSize: "0.85rem" }}>
-          <a href="#about" className="hover:text-foreground transition-colors">
+          <a
+            href="#about"
+            onClick={scrollToSection("about")}
+            className="hover:text-foreground transition-colors"
+          >
             About
           </a>
-          <a href="#coaching" className="hover:text-foreground transition-colors">
+          <a
+            href="#coaching"
+            onClick={scrollToSection("coaching")}
+            className="hover:text-foreground transition-colors"
+          >
             Coaching
           </a>
           <Link to="/contact" className="hover:text-foreground transition-colors">

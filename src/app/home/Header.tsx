@@ -1,6 +1,7 @@
 import { useState, type MouseEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Menu, X } from "lucide-react";
+import { revealAndScrollTo } from "../utils/scroll";
 
 /**
  * Above-the-fold home page chrome: announcement banner + fixed nav + mobile
@@ -12,7 +13,7 @@ export default function Header() {
 
   const scrollTo = (id: string) => (e: MouseEvent) => {
     e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    revealAndScrollTo(id);
     setMenuOpen(false);
   };
 

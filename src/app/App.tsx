@@ -1,32 +1,24 @@
-import { lazy, Suspense, useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 import Header from "./home/Header";
 import Hero from "./home/Hero";
 import Footer from "./home/Footer";
+import DeferredSection from "./utils/DeferredSection";
+import { revealSection } from "./utils/reveal";
 
-// Below-the-fold sections are code-split so they stay out of the homepage's
-// initial JS parse/execute path — the hero can paint before these chunks are
-// fetched/parsed. Chunks still start downloading on mount (off the critical
-// path), so nav "scroll to section" links keep working without a scroll-gate.
-const About = lazy(() => import("./home/About"));
-const Coaching = lazy(() => import("./home/Coaching"));
-const Approach = lazy(() => import("./home/Approach"));
-const Testimonials = lazy(() => import("./home/Testimonials"));
-const Insights = lazy(() => import("./home/Insights"));
-
-/** Reserves the section's approximate height so a lazy chunk can't cause CLS. */
-function Deferred({ children, minHeight }: { children: ReactNode; minHeight: number }) {
-  return <Suspense fallback={<div aria-hidden="true" style={{ minHeight }} />}>{children}</Suspense>;
-}
+// Below-the-fold sections are code-split AND IntersectionObserver-gated (see
+// DeferredSection): their chunks aren't fetched/parsed/rendered until the
+// section nears the viewport, keeping them off the initial load path entirely.
 
 export default function App() {
   // When arriving on the home page with a hash (e.g. navigating from a blog
-  // page to "/#about"), scroll to the target section once it has rendered.
-  // Sections are lazy-loaded, so retry briefly until the element exists.
+  // page to "/#about"), reveal the (gated) target section, then scroll to it
+  // once it has rendered. Retry briefly until the element exists.
   useEffect(() => {
     const id = window.location.hash.replace("#", "");
     if (!id) return;
+    revealSection(id);
     let tries = 0;
     let timer: ReturnType<typeof setTimeout>;
     const attempt = () => {
@@ -73,21 +65,15 @@ export default function App() {
       >
         <Header />
         <Hero />
-        <Deferred minHeight={640}>
-          <About />
-        </Deferred>
-        <Deferred minHeight={900}>
-          <Coaching />
-        </Deferred>
-        <Deferred minHeight={640}>
-          <Approach />
-        </Deferred>
-        <Deferred minHeight={720}>
-          <Testimonials />
-        </Deferred>
-        <Deferred minHeight={760}>
-          <Insights />
-        </Deferred>
+        <DeferredSection id="about" loader={() => import("./home/About")} minHeight={640} />
+        <DeferredSection id="coaching" loader={() => import("./home/Coaching")} minHeight={900} />
+        <DeferredSection id="approach" loader={() => import("./home/Approach")} minHeight={640} />
+        <DeferredSection
+          id="testimonials"
+          loader={() => import("./home/Testimonials")}
+          minHeight={720}
+        />
+        <DeferredSection id="insights" loader={() => import("./home/Insights")} minHeight={760} />
         <Footer />
       </div>
     </>

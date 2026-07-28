@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight, Compass, Leaf, Star } from "lucide-react";
-import { scrollToId } from "./scroll";
+import { scrollToSection } from "../utils/scroll";
 
 const FOREST_IMAGE =
   "https://images.unsplash.com/photo-1692719525723-f179a6a86955?w=700&h=900&fit=crop&auto=format";
@@ -147,7 +147,7 @@ export default function Approach() {
       <div className="flex justify-end mt-6">
         <a
           href="#testimonials"
-          onClick={scrollToId("testimonials")}
+          onClick={scrollToSection("testimonials")}
           className="inline-flex items-center gap-2 text-primary"
           style={{ fontWeight: 700, fontSize: "0.95rem" }}
         >

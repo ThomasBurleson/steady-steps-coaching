@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { scrollToId } from "./scroll";
+import { scrollToSection } from "../utils/scroll";
 import coachingImage from "../../_images/image-1.jpg";
 
 const coachingItems = [
@@ -177,7 +177,7 @@ export default function Coaching() {
             >
               <a
                 href="#approach"
-                onClick={scrollToId("approach")}
+                onClick={scrollToSection("approach")}
                 className="inline-flex items-center gap-2 text-primary"
                 style={{ fontWeight: 700, fontSize: "0.95rem" }}
               >

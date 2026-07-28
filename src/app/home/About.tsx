@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { scrollToId } from "./scroll";
+import { scrollToSection } from "../utils/scroll";
 import likerPortrait from "../../_images/liker-portrait.jpeg";
 
 /** Below-the-fold "About" section. Lazy-loaded from App.tsx. */
@@ -101,7 +101,7 @@ export default function About() {
           </p>
           <a
             href="#coaching"
-            onClick={scrollToId("coaching")}
+            onClick={scrollToSection("coaching")}
             className="inline-flex items-center gap-2 text-primary"
             style={{ fontWeight: 700, fontSize: "0.95rem" }}
           >
