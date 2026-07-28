@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen.ts";
-import { CalendlyProvider } from "./app/calendly/CalendlyProvider.tsx";
 import "./styles/index.css";
 
 // `routeTree` is generated from src/routes/** by the TanStack Router Vite plugin.
@@ -21,8 +20,6 @@ declare module "@tanstack/react-router" {
 
 createRoot(document.getElementById("root")!).render(
   <HelmetProvider>
-    <CalendlyProvider>
-      <RouterProvider router={router} />
-    </CalendlyProvider>
+    <RouterProvider router={router} />
   </HelmetProvider>,
 );

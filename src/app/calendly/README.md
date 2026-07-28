@@ -50,7 +50,7 @@ success copy in that case.
 | File | Role |
 | --- | --- |
 | [`CalendlyProvider.tsx`](./CalendlyProvider.tsx) | Renders one shared `PopupModal` at the root; exposes `openCalendly({ prefill, onClose })` via context. |
-| [`../../main.tsx`](../../main.tsx) | Wraps `<RouterProvider>` in `<CalendlyProvider>` so the modal renders above the route tree. |
+| [`../../routes/contact.tsx`](../../routes/contact.tsx) | Wraps `<Contact>` in `<CalendlyProvider>` so `react-calendly` is code-split into the `/contact` route chunk (kept off the homepage bundle). |
 | [`../components/Contact.tsx`](../components/Contact.tsx) | Owns the flow: on form-submit success, opens the prefilled scheduler and shows the success view when it closes. |
 | [`../App.tsx`](../App.tsx) | The "Book a Call" CTAs scroll to the intake form (`#contact`). |
 | [`../blog/Header.tsx`](../blog/Header.tsx) | The blog "Book a Call" links to `/#contact` (the form on the home page). |
@@ -67,9 +67,11 @@ openCalendly({
 });
 ```
 
-`Contact.tsx` is the only caller today. The popup is mounted once at the root
-(good for an overlay) rather than per-button, which is why it lives in a
-provider above the router.
+`Contact.tsx` is the only caller today, so the provider wraps just `<Contact>`
+in `routes/contact.tsx` rather than the whole app — this keeps `react-calendly`
+out of the homepage bundle (it loads only with the `/contact` route chunk). The
+`PopupModal` still renders into `#root` via its `rootElement`, so it overlays the
+full page regardless of where the provider sits in the tree.
 
 ### Configuration
 

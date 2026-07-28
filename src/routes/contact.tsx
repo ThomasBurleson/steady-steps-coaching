@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import BlogHeader from "@/app/blog/Header";
 import Contact from "@/app/contact/Contact";
+import { CalendlyProvider } from "@/app/calendly/CalendlyProvider";
 
 // "/contact" → the standalone booking / intake page. The sizeable form lives in
 // src/app/contact/Contact.tsx; this route only supplies the page chrome (shared
@@ -21,9 +22,13 @@ function ContactPage() {
         />
       </Helmet>
       <BlogHeader />
-      {/* Top padding clears the fixed BlogHeader, matching the blog pages. */}
+      {/* Top padding clears the fixed BlogHeader, matching the blog pages.
+          CalendlyProvider wraps only Contact (its sole consumer) so react-calendly
+          is code-split into the /contact chunk, not the homepage bundle. */}
       <div className="pt-0">
-        <Contact />
+        <CalendlyProvider>
+          <Contact />
+        </CalendlyProvider>
       </div>
     </div>
   );
