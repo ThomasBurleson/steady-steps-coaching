@@ -126,7 +126,8 @@ function renderArticleHtml(template, post) {
       /<meta name="description"[^>]*>/,
       `<meta name="description" content="${escapeAttr(post.excerpt)}" />`
     )
-    // Articles are indexable; the site-wide default in index.html is noindex.
+    // Articles are indexable (matches the site-wide default; set explicitly so
+    // it holds even if index.html's default changes).
     .replace(
       /<meta name="robots"[^>]*>/,
       `<meta name="robots" content="index, follow" />`
@@ -135,11 +136,10 @@ function renderArticleHtml(template, post) {
 }
 
 /**
- * Prerender the blog index (/blog) as an indexable page. The site-wide default
- * is noindex (index.html), which would stop Google from crawling the listing
- * and discovering articles. We flip robots to index/follow, add listing meta,
- * and bake a <noscript> list of article links so even JS-less crawlers can
- * reach every article (Googlebot renders the real SPA listing on top).
+ * Prerender the blog index (/blog) as an indexable page. We set robots to
+ * index/follow (explicit, matching the site default), add listing meta, and
+ * bake a <noscript> list of article links so even JS-less crawlers can reach
+ * every article (Googlebot renders the real SPA listing on top).
  */
 function renderBlogIndexHtml(template, posts) {
   const url = `${SITE_URL}/blog`;
@@ -177,15 +177,16 @@ function renderBlogIndexHtml(template, posts) {
 }
 
 /**
- * sitemap.xml of the indexable article URLs. Regenerated on every build, so it
- * stays in sync as articles are added to _data.ts. Only articles are listed —
- * the home/contact/blog-index pages are noindex (see index.html), and Google
- * warns about noindex URLs appearing in a sitemap.
+ * sitemap.xml of the indexable URLs. Regenerated on every build, so it stays in
+ * sync as articles are added to _data.ts. Lists the home page, the blog index,
+ * and every article. (The SPA fallback serves index.html for `/`, which now
+ * defaults to index,follow — see index.html.)
  */
 function renderSitemap(posts) {
   const escapeXml = (v) =>
     String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const locs = [
+    `${SITE_URL}/`,
     `${SITE_URL}/blog`,
     ...posts.map((post) => `${SITE_URL}/blog/${post.slug}`),
   ];

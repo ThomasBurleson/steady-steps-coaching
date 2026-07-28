@@ -1,1 +1,9 @@
-/*    /index.html   200
+# SPA fallback for client routes that are NOT prerendered to static HTML.
+# `/` is the index document; `/blog` and `/blog/<slug>` are prerendered files
+# (served directly). `/contact` is the only client route needing the shell.
+# NOTE: add any NEW non-prerendered client route here, or it will 404 on direct load.
+/contact    /index.html    200
+
+# Anything else that isn't a real file/prerendered page → a real 404 (not a
+# soft-404). 404.html is noindex, so bogus URLs never get indexed.
+/*          /404.html      404

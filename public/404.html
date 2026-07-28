@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found — Steady Steps Coaching</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="The page you were looking for could not be found." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #faf8f5;
+        --fg: #2b2620;
+        --muted: #6f675d;
+        --primary: #9a7b4f;
+        --border: #e7e1d8;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1b1815;
+          --fg: #ece7df;
+          --muted: #a49a8d;
+          --primary: #c7a675;
+          --border: #332e28;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: "Lato", system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+      }
+      main {
+        max-width: 32rem;
+        text-align: center;
+      }
+      .code {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(4rem, 18vw, 7rem);
+        font-weight: 600;
+        line-height: 1;
+        color: var(--primary);
+        margin: 0;
+      }
+      h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-weight: 500;
+        font-size: clamp(1.4rem, 5vw, 1.9rem);
+        margin: 0.75rem 0 0.5rem;
+      }
+      p {
+        color: var(--muted);
+        margin: 0 auto 1.75rem;
+        max-width: 26rem;
+      }
+      .actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      a {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.6rem 1.25rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: opacity 0.15s ease;
+      }
+      a:hover {
+        opacity: 0.85;
+      }
+      .primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .secondary {
+        border: 1px solid var(--border);
+        color: var(--fg);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="code">404</p>
+      <h1>This page took a different path</h1>
+      <p>
+        The page you were looking for isn’t here — it may have moved or never existed. Let’s get
+        you back on steady ground.
+      </p>
+      <div class="actions">
+        <a class="primary" href="/">Back home</a>
+        <a class="secondary" href="/blog">Read the blog</a>
+      </div>
+    </main>
+  </body>
+</html>
