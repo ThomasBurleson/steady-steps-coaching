@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { scrollToSection } from "../utils/scroll";
@@ -13,6 +14,19 @@ const HERO_SRCSET =
   "/forest-768.avif 768w, /forest-1280.avif 1280w, /forest-1800.avif 1800w";
 const HERO_FALLBACK = "/forest-1280.avif";
 
+// Matches Tailwind's `md` breakpoint, below which the hero is a single narrow
+// column and the staggered entrance costs more (delayed above-the-fold paint on
+// slow phones) than it buys. Read once on first render — the entrance animation
+// only runs on mount, so there's nothing to re-evaluate on resize.
+const MOBILE_QUERY = "(max-width: 767px)";
+
+function useIsMobile() {
+  const [isMobile] = useState(
+    () => window.matchMedia?.(MOBILE_QUERY).matches ?? false,
+  );
+  return isMobile;
+}
+
 /**
  * Above-the-fold hero. Kept eager (not lazy) — it holds the LCP image, so it
  * must render on first paint. The image is preloaded in index.html and hinted
@@ -24,6 +38,14 @@ const HERO_FALLBACK = "/forest-1280.avif";
  * TypeScript happy (its img types only know the camelCase form).
  */
 export default function Hero() {
+  const isMobile = useIsMobile();
+  // On mobile every hero motion collapses to zero duration / zero delay. Also
+  // drop the `initial` offset there so the content paints at its final position
+  // on the very first frame instead of flashing in on the next one.
+  const enter = (transition: { duration: number; delay?: number }) =>
+    isMobile ? { duration: 0, delay: 0 } : transition;
+  const from = <T,>(initial: T) => (isMobile ? false : initial);
+
   return (
     <section
       aria-label="Hero"
@@ -58,9 +80,9 @@ export default function Hero() {
         style={{ zIndex: 3 }}
       >
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={from({ opacity: 0, y: 20 })}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={enter({ duration: 0.3 })}
           className="text-accent mb-4 tracking-[0.2em] uppercase inline-block"
           style={{
             fontSize: "0.78rem",
@@ -74,9 +96,9 @@ export default function Hero() {
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={from({ opacity: 0, y: 30 })}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0 }}
+          transition={enter({ duration: 0.3, delay: 0 })}
           className="text-white mb-6 text-shadow-lg"
           style={{
             fontFamily: "'Playfair Display', serif",
@@ -105,9 +127,9 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={from({ opacity: 0, y: 20 })}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0 }}
+          transition={enter({ duration: 0.3, delay: 0 })}
           className="text-white/80 max-w-95 mb-10 text-shadow-lg"
           style={{ fontSize: "1.05rem", lineHeight: 1.7 }}
         >
@@ -116,9 +138,9 @@ export default function Hero() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={from({ opacity: 0, y: 20 })}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.45 }}
+          transition={enter({ duration: 0.8, delay: 0.45 })}
           className="flex justify-end max-w-95"
         >
           <a
