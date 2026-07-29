@@ -4,6 +4,10 @@ node_modules/
 # Build output
 dist/
 
+# Generated responsive hero variants (deterministic; built from the committed
+# master src/_images/forest.avif via `npm run images`, run by predev + build).
+public/forest-*.avif
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

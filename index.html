@@ -9,6 +9,26 @@
       <title>Steady-Steps Life Coaching</title>
       <meta name="description" content="Steady Steps Coaching — 1-on-1 mental-health and life coaching with Chelsea. Clarify, simplify, and build sustainable routines that fit your life." />
       <meta name="robots" content="index, follow" />
+
+      <!-- Preload the hero LCP image so the preload scanner fetches it during
+           HTML parse, in parallel with the JS bundle — not after React renders.
+           Responsive: imagesrcset/imagesizes mirror the <img> in Hero.tsx so the
+           preload picks the SAME variant the img will (mobile ≈ 53KB, not 573KB).
+           `href` is the fallback for browsers without imagesrcset. -->
+      <link
+        rel="preload"
+        as="image"
+        href="/forest-1280.avif"
+        imagesrcset="/forest-768.avif 768w, /forest-1280.avif 1280w, /forest-1800.avif 1800w"
+        imagesizes="100vw"
+        fetchpriority="high"
+      />
+
+      <!-- Warm up the Google Fonts connections early; the stylesheet itself is
+           pulled via @import in src/styles/fonts.css. -->
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
       
     </head>
