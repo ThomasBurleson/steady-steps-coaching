@@ -112,7 +112,7 @@ export default function BlogList() {
 
       <BlogHeader />
 
-      <main className="pt-28 lg:pt-32">
+      <main className="pt-8 lg:pt-12">
         <InsightsSection />
       </main>
     </div>

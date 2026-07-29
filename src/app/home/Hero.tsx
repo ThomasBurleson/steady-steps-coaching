@@ -1,10 +1,8 @@
 import { motion } from "motion/react";
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { scrollToSection } from "../utils/scroll";
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1623967680551-3e4694e2c9ad?w=1800&h=900&fit=crop&auto=format";
+import HERO_IMAGE from "../../_images/forest.avif";
 
 /**
  * Above-the-fold hero. Kept eager (not lazy) — it holds the LCP image, so it
@@ -36,7 +34,7 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(to top, rgba(45,36,23,0.85) 0%, rgba(45,36,23,0.3) 50%, transparent 100%)",
+            "linear-gradient(to top, rgba(45,36,23,0.85) 0%, rgba(45,36,23,0.3) 15%, transparent 100%)",
           zIndex: 2,
         }}
       />
@@ -48,7 +46,7 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.3 }}
           className="text-accent mb-4 tracking-[0.2em] uppercase inline-block"
           style={{
             fontSize: "0.78rem",
@@ -64,8 +62,8 @@ export default function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-white mb-6"
+          transition={{ duration: 0.3, delay: 0 }}
+          className="text-white mb-6 text-shadow-lg"
           style={{
             fontFamily: "'Playfair Display', serif",
             fontSize: "clamp(2rem, 4.5vw, 3rem)",
@@ -75,17 +73,18 @@ export default function Hero() {
             flexDirection: "column",
             width: "fit-content",
             paddingBottom: "12px",
-          }}
+          }}          
         >
-          <span>Improve your life,</span>
+          <span>An amazing life,</span>
           <em
             style={{
               fontSize: "clamp(1.4rem, 3vw, 2rem)",
               fontWeight: 600,
               color: "#F5D9A8",
               lineHeight: 1.05,
-              textAlign: "right",
+              textAlign: "right",              
             }}
+            className=" text-shadow-lg"
           >
             one steady step at a time.
           </em>
@@ -94,8 +93,8 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-white/80 max-w-xl mb-10"
+          transition={{ duration: 0.3, delay: 0 }}
+          className="text-white/80 max-w-95 mb-10 text-shadow-lg"
           style={{ fontSize: "1.05rem", lineHeight: 1.7 }}
         >
           Thoughtful 1-on-1 guidance and consistent support for lasting personal growth and
@@ -106,19 +105,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.45 }}
-          className="flex flex-wrap gap-4"
+          className="flex flex-wrap gap-4 just pl-56"
         >
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-accent-foreground rounded-full hover:bg-accent/90 transition-colors"
-            style={{ fontWeight: 700 }}
-          >
-            Begin Your Journey <ArrowRight size={16} aria-hidden="true" />
-          </Link>
           <a
             href="#about"
             onClick={scrollToSection("about")}
-            className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/40 text-white rounded-full hover:bg-white/10 transition-colors"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-accent-foreground rounded-full hover:bg-accent/90 transition-colors"
           >
             Learn More <ChevronDown size={16} aria-hidden="true" />
           </a>

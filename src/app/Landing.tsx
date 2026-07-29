@@ -5,32 +5,26 @@ import Header from "./home/Header";
 import Hero from "./home/Hero";
 import Footer from "./home/Footer";
 import DeferredSection from "./utils/DeferredSection";
-import { revealSection } from "./utils/reveal";
+import { revealAndScrollTo } from "./utils/scroll";
+import { useScrollSpy } from "./utils/useScrollSpy";
+import { SECTION_IDS } from "./utils/sections";
 
 // Below-the-fold sections are code-split AND IntersectionObserver-gated (see
 // DeferredSection): their chunks aren't fetched/parsed/rendered until the
 // section nears the viewport, keeping them off the initial load path entirely.
 
 export default function App() {
+  // Reflect the section in view in the URL as the user scrolls (see the
+  // click-driven counterpart in utils/scroll `revealAndScrollTo`).
+  useScrollSpy(SECTION_IDS);
+
   // When arriving on the home page with a hash (e.g. navigating from a blog
-  // page to "/#about"), reveal the (gated) target section, then scroll to it
-  // once it has rendered. Retry briefly until the element exists.
+  // page to "/#approach"), reveal + scroll to the target. Routing through
+  // revealAndScrollTo also reveals the sections *above* the target so their
+  // real heights settle before scrolling — otherwise we'd land short.
   useEffect(() => {
     const id = window.location.hash.replace("#", "");
-    if (!id) return;
-    revealSection(id);
-    let tries = 0;
-    let timer: ReturnType<typeof setTimeout>;
-    const attempt = () => {
-      const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else if (tries++ < 20) {
-        timer = setTimeout(attempt, 100);
-      }
-    };
-    timer = setTimeout(attempt, 100);
-    return () => clearTimeout(timer);
+    if (id) revealAndScrollTo(id);
   }, []);
 
   return (
