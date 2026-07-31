@@ -1,62 +1,20 @@
 # Calendly integration
 
-How customers schedule a coaching session from this app, and how the coach is
-notified in real time.
+The shared scheduling popup. This folder is only the **frontend** half.
 
-There are two halves:
+📖 **Full end-to-end flow, configuration, local-dev behavior, and
+troubleshooting:** [`docs/contact-calendly.md`](../../../docs/contact-calendly.md)
 
-- **Frontend (this folder)** — a Calendly scheduling popup, free embed, no
-  backend. Documented below.
-- **Backend** — a Calendly webhook → Netlify Function → Twilio SMS. See
-  [`netlify/functions/calendly-webhook.ts`](../../../netlify/functions/calendly-webhook.ts)
-  and the setup guide at [`docs/calendly-sms-setup.md`](../../../docs/calendly-sms-setup.md).
+📖 **Backend** (Calendly webhook → Netlify Function → Twilio SMS):
+[`docs/calendly-sms-setup.md`](../../../docs/calendly-sms-setup.md) and
+[`netlify/functions/calendly-webhook.ts`](../../../netlify/functions/calendly-webhook.ts)
 
 ---
 
-## Frontend: the booking popup
+## The provider API
 
-### Flow: form first, then schedule
-
-"Book a Call" does **not** open Calendly directly. It reveals the intake form,
-and submitting that form is what opens the scheduler — prefilled with the
-visitor's name and email. This captures the coaching intake answers (primary
-areas, biggest hurdle) *and* lets the visitor book in one motion.
-
-```
-"Book a Call" (any CTA)
-      │  scroll / navigate to #contact
-      ▼
-Intake form (Contact.tsx) ── submit ──▶ POST to Netlify "contact" form
-      │
-      │ on success: openCalendly({ prefill: {name, email}, onClose })
-      ▼
-Calendly PopupModal (prefilled)
-      ├─ visitor schedules (onEventScheduled)
-      │     └─ background POST → Netlify "booking" form (lead record)
-      ▼
-popup closes (onClose(booked))
-      ▼
-Contact success view
-      ├─ booked      → "Your session is booked!"
-      └─ not booked  → "Your request has been submitted!" (intake already sent)
-```
-
-Because the intake form is POSTed *before* the scheduler opens, closing the
-popup without booking is still a captured lead — hence the "we'll be in touch"
-success copy in that case.
-
-### Pieces
-
-| File | Role |
-| --- | --- |
-| [`CalendlyProvider.tsx`](./CalendlyProvider.tsx) | Renders one shared `PopupModal` at the root; exposes `openCalendly({ prefill, onClose })` via context. |
-| [`../../routes/contact.tsx`](../../routes/contact.tsx) | Wraps `<Contact>` in `<CalendlyProvider>` so `react-calendly` is code-split into the `/contact` route chunk (kept off the homepage bundle). |
-| [`../components/Contact.tsx`](../components/Contact.tsx) | Owns the flow: on form-submit success, opens the prefilled scheduler and shows the success view when it closes. |
-| [`../App.tsx`](../App.tsx) | The "Book a Call" CTAs scroll to the intake form (`#contact`). |
-| [`../blog/Header.tsx`](../blog/Header.tsx) | The blog "Book a Call" links to `/#contact` (the form on the home page). |
-| [`../../../index.html`](../../../index.html) | Hidden Netlify `booking` form so the background lead POST is recognized at build time. |
-
-### The provider API
+[`CalendlyProvider.tsx`](./CalendlyProvider.tsx) renders one shared `PopupModal`
+and exposes it through context:
 
 ```tsx
 const { openCalendly } = useCalendly();
@@ -67,38 +25,17 @@ openCalendly({
 });
 ```
 
-`Contact.tsx` is the only caller today, so the provider wraps just `<Contact>`
-in `routes/contact.tsx` rather than the whole app — this keeps `react-calendly`
-out of the homepage bundle (it loads only with the `/contact` route chunk). The
-`PopupModal` still renders into `#root` via its `rootElement`, so it overlays the
-full page regardless of where the provider sits in the tree.
+[`Contact.tsx`](../contact/Contact.tsx) is the only caller today, so the provider
+wraps just `<Contact>` in [`routes/contact.tsx`](../../routes/contact.tsx) rather
+than the whole app — this keeps `react-calendly` out of the homepage bundle (it
+loads only with the `/contact` route chunk). The `PopupModal` still renders into
+`#root` via its `rootElement`, so it overlays the full page regardless of where
+the provider sits in the tree.
 
-### Configuration
+## Two things to know
 
-The scheduling URL comes from an env var (Vite requires the `VITE_` prefix):
-
-```
-VITE_CALENDLY_URL=https://calendly.com/<user>/<event>
-```
-
-If it's unset the popup doesn't render, so the form submit would fall straight
-through to the success view. The popup is themed to the brand sage green via
-`pageSettings={{ primaryColor: "3D5A40" }}` (matches `--primary` in
-`src/styles/theme.css`).
-
-### Data available on the free embed
-
-`onEventScheduled` only exposes the **event and invitee URIs** — not the
-visitor's details. That's fine here because the intake form already captured
-name/email/phone/answers. The coach's real-time SMS with full details is
-delivered by the **webhook → Twilio** backend (paid Calendly plan); see the
-backend docs linked above.
-
----
-
-## Testing
-
-- Frontend: set `VITE_CALENDLY_URL`, `npm run dev`, click a CTA, submit the form,
-  and confirm the prefilled scheduler opens. On the dev server the background
-  POST is skipped (logged instead).
-- Backend signature/format logic: `npm test`.
+- **`VITE_CALENDLY_URL` gates rendering.** If it's empty the `PopupModal` is
+  never mounted and `openCalendly()` silently does nothing. This is the usual
+  reason the popup "doesn't work" locally.
+- **Booking is form-first.** No CTA opens Calendly directly — they navigate to
+  `/contact`, and submitting the intake form is what calls `openCalendly()`.

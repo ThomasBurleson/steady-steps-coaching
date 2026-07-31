@@ -17,6 +17,21 @@
   `src/routes/**` and page components in `src/app/**`. See
   [docs/routing.md](docs/routing.md) for conventions, adding routes, and gotchas.
 
+  ## Booking a Session (Contact → Calendly)
+
+  Booking is **form-first**: "Book a Call" CTAs navigate to `/contact`, and submitting
+  the intake form is what opens the Calendly scheduler — prefilled with the visitor's
+  name and email. The intake is POSTed to Netlify Forms *before* the scheduler opens,
+  so closing it without picking a time is still a captured lead. When a slot is
+  booked, Calendly's webhook hits a Netlify Function that texts the coach via Twilio.
+
+  Set `VITE_CALENDLY_URL` in your local `.env` (copy `.env.example`) — if it's empty
+  the popup never renders. Restart the dev server after editing `.env`.
+
+  See [docs/contact-calendly.md](docs/contact-calendly.md) for the full flow,
+  configuration, local-dev stubs, and troubleshooting, and
+  [docs/calendly-sms-setup.md](docs/calendly-sms-setup.md) for the webhook → SMS setup.
+
   ## Authoring Blog Articles
 
   Blog articles start as online Word documents and are converted to Markdown with the

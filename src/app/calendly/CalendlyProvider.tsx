@@ -9,8 +9,11 @@ import { PopupModal, useCalendlyEventListener } from "react-calendly";
  * prefill the scheduler and an `onClose(booked)` callback. When a booking
  * completes we also fire a fire-and-forget Netlify `booking` form POST.
  *
- * Mounted above the router in `main.tsx` so the modal renders at the root (good
- * for an overlay) and is reachable from context.
+ * Mounted in `routes/contact.tsx` around `<Contact>` only — its sole consumer —
+ * so `react-calendly` code-splits into the /contact chunk instead of the
+ * homepage bundle. The modal still overlays the full page via `rootElement`.
+ *
+ * See `docs/contact-calendly.md` for the end-to-end flow and local-dev notes.
  */
 
 const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL ?? "";

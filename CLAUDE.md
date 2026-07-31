@@ -44,6 +44,7 @@ Start), deployed to **Netlify**. Package manager is **npm** (ignore the stray
 
 - `docs/routing.md` — routing conventions, adding routes, gotchas
 - `docs/blog-authoring.md` — Word doc → markitdown → `src/app/blog/_data.ts`
+- `docs/contact-calendly.md` — contact form → Calendly booking flow, env + local dev
 - `docs/calendly-sms-setup.md` — Calendly webhook → Twilio SMS
 - `docs/blog-reactions.md` — blog Likes/Comments (Netlify Blobs + moderation)
 

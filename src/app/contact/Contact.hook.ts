@@ -6,7 +6,7 @@ const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 
 // On the Vite dev server the Netlify form endpoint doesn't exist, so we fake a
 // successful submission instead of POSTing to a 404/405.
-const isLocalDev =
+export const isLocalDev =
   typeof window !== "undefined" &&
   window.location.hostname === "localhost" &&
   window.location.port === "5173";

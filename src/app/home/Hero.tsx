@@ -111,7 +111,7 @@ export default function Hero() {
             paddingBottom: "12px",
           }}          
         >
-          <span>An amazing life,</span>
+          <span>Improve your life,</span>
           <em
             style={{
               fontSize: "clamp(1.4rem, 3vw, 2rem)",
